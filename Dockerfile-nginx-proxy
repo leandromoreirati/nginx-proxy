@@ -1,0 +1,21 @@
+FROM debian:9
+MAINTAINER Leandro Moreira (leandro@leandrmoreira.eti.br)
+LABEL version="1.0"
+LABEL author="Leandro Moreira"
+
+COPY configs/ /tmp/configs/
+RUN apt-get update && \
+    apt-get install -y nginx && \
+    apt-get clean && \
+    mv /tmp/configs/nginx.conf /etc/nginx
+    rm -rf /var/lib/apt/lists/* \
+
+
+VOLUME /etc/nginx
+VOLUME /etc/nginx/ssl
+USER root
+WORKDIR /etc/nginx
+
+ENTRYPOINT ["/usr/sbin/nginx"]
+CMD ["-g","daemon off;"]
+EXPOSE 80

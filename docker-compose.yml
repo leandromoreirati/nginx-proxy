@@ -1,0 +1,26 @@
+version: "3.6"
+services:
+
+# ZABBIX SERVER
+  proxy:
+    image: nginx 
+    hostname: nginx.leandromoreirati.com.br
+    ports:
+     - "81:80"
+    deploy:
+      #placement:
+       # constraints: [node.role == manager]
+    restart: always
+    volumes:
+     - nginx:/etc/nginx
+volumes:
+  nginx:
+
+# REDE
+networks:
+  monitoramento:
+    driver: overlay   
+    ipam:
+      driver: default    
+      config:
+      - subnet: 172.30.0.0/24
